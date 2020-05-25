@@ -1,0 +1,57 @@
+[{
+  "Name": "MASTER",
+  "InstanceGroupType": "MASTER",
+  "InstanceType": "r5.4xlarge",
+  "InstanceCount": 1,
+  "EbsConfiguration": {
+    "EbsBlockDeviceConfigs": [{
+      "VolumeSpecification": {
+        "SizeInGB": 10000,
+        "VolumeType": "gp2"
+      },
+      "VolumesPerInstance": 1
+    }],
+    "EbsOptimized": true
+  }
+}, {
+  "Name": "TASK_SPOT",
+  "InstanceGroupType": "TASK",
+  "InstanceType": "r5.24xlarge",
+  "Configurations": [{
+    "Classification": "yarn-site",
+    "Properties": {
+    	"yarn.nodemanager.node-labels.provider": "config",
+	"yarn.nodemanager.node-labels.provider.configured-node-partition": "TASK"
+    }
+  }],
+  "InstanceCount": 6,
+  "BidPrice": "6.1",
+  "EbsConfiguration": {
+    "EbsBlockDeviceConfigs": [{
+      "VolumeSpecification": {
+        "SizeInGB": 2048,
+        "VolumeType": "gp2"
+      },
+      "VolumesPerInstance": 1
+    }],
+    "EbsOptimized": true
+  }
+},
+{
+  "Name": "core",
+  "InstanceGroupType": "CORE",
+  "InstanceType": "r5.2xlarge",
+  "InstanceCount": 6,
+  "EbsConfiguration": {
+    "EbsBlockDeviceConfigs": [{
+      "VolumeSpecification": {
+        "SizeInGB": 2048,
+        "VolumeType": "gp2"
+      },
+      "VolumesPerInstance": 1
+    }],
+    "EbsOptimized": true
+  }
+}
+
+]

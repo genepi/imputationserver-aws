@@ -1,0 +1,11 @@
+[{
+  "Classification": "mapred-site",
+  "Properties": {
+    "mapreduce.map.memory.mb": "15000",
+    "mapreduce.map.java.opts": "-Xmx12000m",
+    "mapreduce.task.timeout": "10368000000",
+    "mapreduce.map.speculative": "false",
+    "yarn.app.mapreduce.am.resource.mb":"1536",
+    "yarn.app.mapreduce.am.command-opts":"-Xmx1024m"
+  }
+}]

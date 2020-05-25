@@ -1,0 +1,4 @@
+name: AWS Imputation Server
+rscript:
+  docker: true
+  image: genepi/r-cran-docker:latest
