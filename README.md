@@ -1,4 +1,6 @@
-# Imputationserver on AWS EMR
+# Michigan Imputation Server (MIS) on AWS EMR
+
+This repository includes all required steps to launch a MIS instance on Amazon AWS. 
 
 ## Requirements
 - AWS Command Line Interface (https://aws.amazon.com/cli/) (Ubuntu 18: `pip install awscli`)
