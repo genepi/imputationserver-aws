@@ -1,4 +1,5 @@
-name: AWS Imputation Server
-rscript:
-  docker: true
-  image: genepi/r-cran-docker:latest
+name: AWS Demo Imputation Server
+plugins:
+  rscript:
+    docker: true
+    image: genepi/r-cran-docker:latest

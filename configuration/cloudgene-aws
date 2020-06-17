@@ -1,0 +1,13 @@
+#! /bin/bash
+
+# waits until hadoop is ready
+while [[ $(status hadoop-yarn-resourcemanager) != *running* ]]
+do
+  sleep 10
+done
+
+yarn rmadmin -removeFromClusterNodeLabels "CORE"
+yarn rmadmin -addToClusterNodeLabels "TASK(exclusive=false)"
+yarn rmadmin -addToClusterNodeLabels "CORE(exclusive=true)"
+./cloudgene server
+
