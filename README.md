@@ -1,8 +1,8 @@
 # Michigan Imputation Server (MIS) on AWS EMR
 
-This repository includes all required steps to launch a MIS instance on AWS using EMR. The MIS instance hosting several state-of-the-art panels is available at https://imputationserver.sph.umich.edu/.
+This repository includes all required steps to launch a MIS instance on AWS using EMR. The MIS instance hosting several state-of-the-art imputation reference-panels is available at https://imputationserver.sph.umich.edu/.
 
-**Import:** Please always check if you succesfully terminated your AWS EMR cluster by using the Amazon Console. This repository only includes step to launch a new cluster.
+**Import:** Please always check if you succesfully terminated your AWS EMR cluster by using the Amazon Console. This repository only includes steps to launch a new EMR cluster.
 
 ## Requirements
 - AWS Command Line Interface (https://aws.amazon.com/cli/) (Ubuntu 18: `pip install awscli`)
@@ -10,10 +10,11 @@ This repository includes all required steps to launch a MIS instance on AWS usin
   - Set AWS Access Key ID, AWS Secret Access Key, Default region name, Default output format
   - AWS Secret Access Key is not stored on AWS, only available when creating a new Access Key ("Create Access Key")
   - Create a KeyPair for your default region. (See "KeyName" when starting a cluster)
+- Access to a S3 bucket including all required files and reference panels (see below)
 
 
 ## Overall Structure
-Files marked in bold are located on our public S3 bucket `s3://michigan-imputation-aws` and are synchronized with the EC2 EMR cluster when during setup.  
+Files marked in bold are located on our public S3 bucket `s3://michigan-imputation-aws` and are synchronized with the EC2 EMR cluster during setup.  
 
 <pre>
 ├── <b>apps.yaml</b>
@@ -32,7 +33,7 @@ Files marked in bold are located on our public S3 bucket `s3://michigan-imputati
 
 </pre>
 
-### Details ``apps.yaml``
+### Details `apps.yaml`
 ``apps.yaml`` includes all currently installed apps and reference panels. By default, the Michigan Imputation Server app (``imputationserver.zip``) and the HapMap2 reference panel are installed. 
 
 ```
@@ -41,23 +42,24 @@ url: https://github.com/genepi/imputationserver/releases/download/v1.4.0/imputat
 url: s3://michigan-imputation-aws/reference-panels/hapmap2
 ```
 
-### Details ``bootstrap.sh``
+### Details `bootstrap.sh`
 The ``bootstrap.sh`` script installs all required software packages:
 
 - Installs Cloudgene (https://github.com/genepi/cloudgene)
 - Installs Docker (Cloudgene use it to execute R and RMarkdown)
 - Sync with s3://michigan-imputation-aws/configuration to customize Cloudgene (e.g. pages, help, ...)
 - Installs all applications listed in apps.yaml 
-- Starts `cloudgene-aws` in background (`cloudgene-aws` waits until YARN service is started and starts Cloudgene)
+- Starts `cloudgene-aws` in background, which is located on the S3 bucket (`cloudgene-aws` waits until YARN service is started and starts Cloudgene)
 
-### Details ``emr-config.json``
+### Details `emr-config.json`
 ``instance-groups.json`` contains hardware specifications for all nodes (e.g. number workers, instance type, size of EBS volume)
 
-### Details ``instance-groups.json``
+### Details `instance-groups.json`
 ``emr-config.json`` contains all YARN specific parameters (e.g. task timeout, memory settings, ...). Local file paths need to start with `file://`.
 
-### Details ``settings.yaml``
-This file includes all required Cloudgene configuration. For a productive setup, we recommend to set an external database (H2 by default) and an S3 location to export final results.
+### Details `settings.yaml`
+This file includes all required Cloudgene configuration. For a productive setup, we recommend to set an external database (H2 by default) and an S3 location to export final imputation results.
+
 ``
 externalWorkspace:
    type: s3
