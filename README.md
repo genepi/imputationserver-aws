@@ -96,6 +96,19 @@ aws emr create-cluster \
     --bootstrap-actions Path=s3://michigan-imputation-aws-public/bootstrap.sh,Args=[]
 ```
 
+## Connect to the EC2 instance
+
+The DNS-Name of the Cloudgene instance can be found in property `MasterPublicDnsName` (e.g. ec2-13-59-108-176.us-east-2.compute.amazonaws.com) Cloudgene runs on port **8082** (e.g. http://ec2-13-59-108-176.us-east-2.compute.amazonaws.com:8082).
+
+**Attention**: If you start the cluster for the first time, you need to open port 8082. The security group of the master node can be found in property `EmrManagedMasterSecurityGroup`. Open Amazon Web Console, click on EC2 -> Security Group and configure inboud traffic.
+
+## Submit your fist imputation job
+
+Login as **admin** with the default admin password **admin1978**. You can now start a job by clicking on *Run*. More about submitting jobs and data preparation can be found in our [documentation]
+
+
+## Monitor your cluster
+
 After submitting, you get a cluster id `j-XXXXXXXXXX`. Use this id to check the state of the cluster:
 
 ```
@@ -120,14 +133,6 @@ Cluster is ready after several minutes and you should see `"State": "WAITING"`:
 ...
 }
 ```
-## Connect to the EC2 instance
-
-The DNS-Name of the Cloudgene instance can be found in property `MasterPublicDnsName` (e.g. ec2-13-59-108-176.us-east-2.compute.amazonaws.com) Cloudgene runs on port **8082** (e.g. http://ec2-13-59-108-176.us-east-2.compute.amazonaws.com:8082).
-
-**Attention**: If you start the cluster for the first time, you need to open port 8082. The security group of the master node can be found in property `EmrManagedMasterSecurityGroup`. Open Amazon Web Console, click on EC2 -> Security Group and configure inboud traffic.
-
-
 ## Known shortcomings
 - Sets temp directory in `job.config` to /mnt (mounted EBS volume).
 - cloudgene-aws is currently run with sudo permission (required by Docker)
-- 
