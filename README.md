@@ -47,7 +47,7 @@ The ``bootstrap.sh`` script installs all required software packages:
 
 - Installs Cloudgene (https://github.com/genepi/cloudgene)
 - Installs Docker (Cloudgene use it to execute R and RMarkdown)
-- Sync with s3://michigan-imputation-aws/configuration to customize Cloudgene (e.g. pages, help, ...)
+- Sync with `s3://michigan-imputation-aws/configuration` to customize Cloudgene (e.g. pages, help, ...)
 - Installs all applications listed in apps.yaml 
 - Starts `cloudgene-aws` in background, which is located on the S3 bucket (`cloudgene-aws` waits until YARN service is started and starts Cloudgene)
 
@@ -60,7 +60,7 @@ The ``bootstrap.sh`` script installs all required software packages:
 ### Details `settings.yaml`
 This file includes all required Cloudgene configuration. For a productive setup, we recommend to set an external database (H2 by default) and an S3 location to export final imputation results.
 
-``
+<pre>
 externalWorkspace:
    type: s3
    location: <s3://s3-bucket>
@@ -71,7 +71,7 @@ database:
    port: 3306
    host: <host>
    user: <user>
-``
+</pre>
 
 ## Sample Configuration
 - `clusters/small` describes a small cluster with 1 master, 2 workers, all of them are m4.large instances with 128 GB EBS volume
@@ -80,7 +80,7 @@ database:
   
 ## Start cluster
 
-The following command starts a cluster with provided instance groups and yarn config from folder `small` and a bootstrap action that installs Cloudgene, Imputationserver and HapMap. Ensure that you have access to bucket `s3://imputationserver-aws`.
+The following command starts a cluster with provided instance groups and yarn config from folder `small` and a bootstrap action that installs Cloudgene, Imputationserver and HapMap. Ensure that you have access to bucket `s3://michigan-imputation-aws`.
 
 ```
 aws emr create-cluster \
