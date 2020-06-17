@@ -1,6 +1,7 @@
 # Michigan Imputation Server (MIS) on AWS EMR
 
-This repository includes all required steps to launch a MIS instance on AWS using EMR. The MIS instance hosting several state-of-the-art imputation reference-panels is available at https://imputationserver.sph.umich.edu/.
+This repository includes all required steps to launch a MIS instance on AWS using EMR. 
+The offial MIS instance provides several state-of-the-art imputation reference-panels and is available at https://imputationserver.sph.umich.edu/.
 
 **Import:** Please always check if you succesfully terminated your AWS EMR cluster by using the Amazon Console. This repository only includes steps to launch a new EMR cluster.
 
@@ -51,10 +52,10 @@ The ``bootstrap.sh`` script installs all required software packages:
 - Installs all applications listed in apps.yaml 
 - Starts `cloudgene-aws` in background, which is located on the S3 bucket (`cloudgene-aws` waits until YARN service is started and starts Cloudgene)
 
-### Details `emr-config.json`
+### Details `instance-groups.json`
 ``instance-groups.json`` contains hardware specifications for all nodes (e.g. number workers, instance type, size of EBS volume)
 
-### Details `instance-groups.json`
+### Details `emr-config.json`
 ``emr-config.json`` contains all YARN specific parameters (e.g. task timeout, memory settings, ...). Local file paths need to start with `file://`.
 
 ### Details `settings.yaml`
