@@ -104,7 +104,7 @@ The DNS-Name of the Cloudgene instance can be found in property `MasterPublicDns
 
 ## Submit your fist imputation job
 
-Login as **admin** with the default admin password **admin1978**. You can now start a job by clicking on *Run*. More about submitting jobs and data preparation can be found in our [documentation]
+Login as **admin** with the default admin password **admin1978**. You can now start a job by clicking on *Run*. More about submitting jobs and data preparation can be found in our [Documentation](https://imputationserver.readthedocs.io/en/latest/getting-started/#setup-your-first-imputation-job).
 
 
 ## Monitor your cluster
