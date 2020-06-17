@@ -39,7 +39,7 @@ The following folder structure must be available on a S3 bucket to launch a MIS 
 ```
 url: https://github.com/genepi/imputationserver/releases/download/v1.4.0/imputationserver.zip
 ---
-url: s3://michigan-imputation-aws/reference-panels/hapmap2
+url: s3://michigan-imputation-aws-public/reference-panels/hapmap2
 ```
 
 ### Details `bootstrap.sh`
@@ -47,7 +47,7 @@ The ``bootstrap.sh`` script installs all required software packages:
 
 - Installs Cloudgene (https://github.com/genepi/cloudgene)
 - Installs Docker (Cloudgene use it to execute R and RMarkdown)
-- Sync with `s3://michigan-imputation-aws/configuration` to customize Cloudgene (e.g. pages, help, ...)
+- Sync with `s3://michigan-imputation-aws-public/configuration` to customize Cloudgene (e.g. pages, help, ...)
 - Installs all applications listed in apps.yaml 
 - Starts `cloudgene-aws` in background, which is located on the S3 bucket (`cloudgene-aws` waits until YARN service is started and starts Cloudgene)
 
@@ -80,7 +80,7 @@ database:
   
 ## Start cluster
 
-The following command starts a cluster with provided instance groups and yarn config from folder `spot` and a bootstrap action that installs Cloudgene, Michigan Imputation Server and HapMap2. Ensure that you have access to bucket `s3://michigan-imputation-aws` and set your key. If the bucket is private, it needs to be in the same region as the EMR cluster.
+The following command starts a cluster with provided instance groups and yarn config from folder `spot` and a bootstrap action that installs Cloudgene, Michigan Imputation Server and HapMap2. Ensure that you have access to bucket `s3://michigan-imputation-aws-public` and set your key. If the bucket is private, it needs to be in the same region as the EMR cluster.
 
 When changing the location of the S3 bucket, please also adapt the s3 bucket location in `bootstrap.sh` and `apps.yaml`.  
 
