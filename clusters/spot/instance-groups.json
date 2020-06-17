@@ -41,7 +41,7 @@
   "Name": "core",
   "InstanceGroupType": "CORE",
   "InstanceType": "m4.large",
-  "InstanceCount": 6,
+  "InstanceCount": 2,
   "EbsConfiguration": {
     "EbsBlockDeviceConfigs": [{
       "VolumeSpecification": {
