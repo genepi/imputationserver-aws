@@ -1,7 +1,7 @@
 # Michigan Imputation Server (MIS) on AWS EMR
 
 This repository includes all required steps to launch a MIS instance on AWS using EMR. 
-The offial MIS instance provides several state-of-the-art imputation reference-panels and is available at https://imputationserver.sph.umich.edu/.
+The official MIS instance provides several state-of-the-art imputation reference-panels and is available at https://imputationserver.sph.umich.edu/.
 
 **Import:** Please always check if you succesfully terminated your AWS EMR cluster by using the Amazon Console. This repository only includes steps to launch a new EMR cluster.
 
@@ -15,32 +15,31 @@ The offial MIS instance provides several state-of-the-art imputation reference-p
 
 
 ## Overall Structure
-Files marked in bold are located on our public S3 bucket `s3://michigan-imputation-aws` and are synchronized with the EC2 EMR cluster during setup.  
+The following folder structure must be available on a S3 bucket to launch a MIS instance. In this example we are using our public bucket `s3://michigan-imputation-aws-public` that is synchronized with the EC2 EMR cluster during setup.  
 
 <pre>
-├── <b>apps.yaml</b>
-├── <b>bootstrap.sh</b>
-├── clusters
-│   ├── small
-│   │   ├── <b>emr-config.json</b>
-│   │   └── <b>instance-groups.json</b>
-│   └── spot
-│       ├── emr-config.json
-│       └── instance-groups.json
+├── apps.yaml
+├── bootstrap.sh
 ├── configuration
-│   └── config
-│       └── <b>settings.yaml</b>
-└── README.md
+│   ├── cloudgene-aws
+│   ├── cloudgene.conf
+│   ├── config
+│   │   └── settings.yaml
+│   └── pages
+│       ├── contact.stache
+│       ├── home.stache
+│       └── images
+└── reference-panels 
 
 </pre>
 
 ### Details `apps.yaml`
-``apps.yaml`` includes all currently installed apps and reference panels. By default, the Michigan Imputation Server app (``imputationserver.zip``) and the HapMap2 reference panel are installed. 
+``apps.yaml`` includes all currently installed apps and reference panels. By default, the Michigan Imputation Server app (`imputationserver.zip`) and the HapMap2 reference panel are installed. 
 
 ```
 url: https://github.com/genepi/imputationserver/releases/download/v1.4.0/imputationserver.zip
 ---
-url: s3://michigan-imputation-aws/reference-panels/hapmap2
+url: s3://michigan-imputation-aws-public/reference-panels/hapmap2
 ```
 
 ### Details `bootstrap.sh`
@@ -48,7 +47,7 @@ The ``bootstrap.sh`` script installs all required software packages:
 
 - Installs Cloudgene (https://github.com/genepi/cloudgene)
 - Installs Docker (Cloudgene use it to execute R and RMarkdown)
-- Sync with `s3://michigan-imputation-aws/configuration` to customize Cloudgene (e.g. pages, help, ...)
+- Sync with `s3://michigan-imputation-aws-public/configuration` to customize Cloudgene (e.g. pages, help, ...)
 - Installs all applications listed in apps.yaml 
 - Starts `cloudgene-aws` in background, which is located on the S3 bucket (`cloudgene-aws` waits until YARN service is started and starts Cloudgene)
 
@@ -76,12 +75,14 @@ database:
 
 ## Sample Configuration
 - `clusters/small` describes a small cluster with 1 master, 2 workers, all of them are m4.large instances with 128 GB EBS volume
-- `clusters/spot` describes the same setup but adding spot instances as TASKS with a bid price of 2.
+- `clusters/spot` describes the same setup but adding 6 spot instances (m4.2xlarge) as TASKS with a bid price of 0.2.
   
   
 ## Start cluster
 
-The following command starts a cluster with provided instance groups and yarn config from folder `small` and a bootstrap action that installs Cloudgene, Imputationserver and HapMap. Ensure that you have access to bucket `s3://michigan-imputation-aws`.
+The following command starts a cluster with provided instance groups and yarn config from folder `spot` and a bootstrap action that installs Cloudgene, Michigan Imputation Server and HapMap2. Ensure that you have access to bucket `s3://michigan-imputation-aws-public` and set your key. If the bucket is private, it needs to be in the same region as the EMR cluster.
+
+When changing the location of the S3 bucket, please also adapt the s3 bucket location in `bootstrap.sh` and `apps.yaml`.  
 
 ```
 aws emr create-cluster \
@@ -92,7 +93,7 @@ aws emr create-cluster \
     --ec2-attributes KeyName=<key-name> \
     --instance-groups file://clusters/spot/instance-groups.json \
     --configuration file://clusters/spot/emr-config.json \
-    --bootstrap-actions Path=s3://michigan-imputation-aws/bootstrap.sh,Args=[]
+    --bootstrap-actions Path=s3://michigan-imputation-aws-public/bootstrap.sh,Args=[]
 ```
 
 After submitting, you get a cluster id `j-XXXXXXXXXX`. Use this id to check the state of the cluster:
@@ -126,6 +127,7 @@ The DNS-Name of the Cloudgene instance can be found in property `MasterPublicDns
 **Attention**: If you start the cluster for the first time, you need to open port 8082. The security group of the master node can be found in property `EmrManagedMasterSecurityGroup`. Open Amazon Web Console, click on EC2 -> Security Group and configure inboud traffic.
 
 
-## Current shortcomings
+## Known shortcomings
 - Sets temp directory in `job.config` to /mnt (mounted EBS volume).
-- cloudgene-aws is started with sudo permission since this is required by Docker.
+- cloudgene-aws is currently run with sudo permission (required by Docker)
+- 
