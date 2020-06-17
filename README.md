@@ -1,7 +1,7 @@
 # Michigan Imputation Server (MIS) on AWS EMR
 
 This repository includes all required steps to launch a MIS instance on AWS using EMR. 
-The offial MIS instance provides several state-of-the-art imputation reference-panels and is available at https://imputationserver.sph.umich.edu/.
+The official MIS instance provides several state-of-the-art imputation reference-panels and is available at https://imputationserver.sph.umich.edu/.
 
 **Import:** Please always check if you succesfully terminated your AWS EMR cluster by using the Amazon Console. This repository only includes steps to launch a new EMR cluster.
 
