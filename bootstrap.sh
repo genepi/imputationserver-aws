@@ -35,11 +35,11 @@ sudo service docker start
 sudo usermod -a -G docker hadoop
 
 ## Customize Cloudgene installation
-aws s3 sync s3://devspacepaulimputationwest2/configuration .
+aws s3 sync s3://michigan-imputation-aws-public/configuration .
 chmod +x cloudgene-aws
 
 ## Install imputationserver and reference panels
-./cloudgene clone s3://devspacepaulimputationwest2/apps.yaml
+./cloudgene clone s3://michigan-imputation-aws-public/apps.yaml
 
 ## set tmp-directory to ebs volume. Warning: Hardcoded path with version! Adapt it on update!
 echo "minimac.tmp=/mnt/mapred" > "/mnt/apps/imputationserver/1.4.0/job.config"
