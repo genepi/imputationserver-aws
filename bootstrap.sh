@@ -1,12 +1,12 @@
 #!/bin/bash
 
 # logging for any errors during bootstrapping
-exec > >(tee -i /var/log/bootstrap-script.log)
-exec 2>&1
+#exec > >(tee -i /var/log/bootstrap-script.log)
+#exec 2>&1
 
 # Force the cluster to terminate early with "Bootstrap failure"
 # if any command or pipeline returns non-zero exit status.
-set -eo pipefail
+#set -eo pipefail
 
 # Check for master node
 IS_MASTER=true
@@ -35,11 +35,11 @@ sudo service docker start
 sudo usermod -a -G docker hadoop
 
 ## Customize Cloudgene installation
-aws s3 sync s3://michigan-imputation-aws-public/configuration .
+aws s3 sync s3://devspacepaulimputationwest2/configuration .
 chmod +x cloudgene-aws
 
 ## Install imputationserver and reference panels
-./cloudgene clone s3://michigan-imputation-aws-public/apps.yaml
+./cloudgene clone s3://devspacepaulimputationwest2/apps.yaml
 
 ## set tmp-directory to ebs volume. Warning: Hardcoded path with version! Adapt it on update!
 echo "minimac.tmp=/mnt/mapred" > "/mnt/apps/imputationserver/1.4.0/job.config"
