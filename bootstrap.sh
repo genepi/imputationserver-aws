@@ -1,12 +1,12 @@
 #!/bin/bash
 
 # logging for any errors during bootstrapping
-exec > >(tee -i /var/log/bootstrap-script.log)
-exec 2>&1
+#exec > >(tee -i /var/log/bootstrap-script.log)
+#exec 2>&1
 
 # Force the cluster to terminate early with "Bootstrap failure"
 # if any command or pipeline returns non-zero exit status.
-set -eo pipefail
+#set -eo pipefail
 
 # Check for master node
 IS_MASTER=true
