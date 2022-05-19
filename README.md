@@ -88,7 +88,7 @@ When changing the location of the S3 bucket, please also adapt the s3 bucket loc
 aws emr create-cluster \
     --name Imputationserver \
     --applications Name=Hadoop Name=Ganglia \
-    --release-label emr-5.29.0 \
+    --release-label emr-5.35.0 \
     --use-default-roles \
     --ec2-attributes KeyName=<key-name> \
     --instance-groups file://clusters/spot/instance-groups.json \
