@@ -1,8 +1,8 @@
 #! /bin/bash
 
 # waits until hadoop is ready
-while [[ $(status hadoop-yarn-resourcemanager) != *running* ]]
-do
+while ! systemctl is-active --quiet hadoop-yarn-resourcemanager ; do 
+  echo "Yarn Resource Manager is not active, will retry in 10 seconds"
   sleep 10
 done
 
