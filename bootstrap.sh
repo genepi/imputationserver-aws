@@ -26,7 +26,7 @@ cd /home/hadoop
 
 
 ## Install and setup Cloudgene
-curl -s install.cloudgene.io | bash -s 2.3.3
+#curl -s install.cloudgene.io | bash -s 2.5.1
 
 ## Install and setup Docker
 sudo yum update -y
@@ -42,8 +42,8 @@ chmod +x cloudgene-aws
 ./cloudgene clone s3://michigan-imputation-aws-public/apps.yaml
 
 ## set tmp-directory to ebs volume. Warning: Hardcoded path with version! Adapt it on update!
-echo "minimac.tmp=/mnt/mapred" > "/mnt/apps/imputationserver/1.4.0/job.config"
-echo "chunksize=10000000" >> "/mnt/apps/imputationserver/1.4.0/job.config"
+echo "minimac.tmp=/mnt/mapred" > "/mnt/apps/imputationserver/1.6.7/job.config"
+echo "chunksize=10000000" >> "/mnt/apps/imputationserver/1.6.7/job.config"
 
 ## Start webservice on port 8082. Needs sudo to avoid permission issues with docker.
 sudo ./cloudgene-aws &
