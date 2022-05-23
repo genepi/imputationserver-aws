@@ -26,7 +26,7 @@ cd /home/hadoop
 
 
 ## Install and setup Cloudgene
-#curl -s install.cloudgene.io | bash -s 2.5.1
+curl -s install.cloudgene.io | bash -s 2.5.1
 
 ## Install and setup Docker
 sudo yum update -y
